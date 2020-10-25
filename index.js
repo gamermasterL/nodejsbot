@@ -35,13 +35,13 @@ client.on('message', (message) => {
   if(message.content == 'ping') {
     return message.reply('pong');
   }
-  if(message.content == '!server');  {
+  if(message.content == '!st') {
     let embed = new Discord.RichEmbed()
-    let img = 'https://cdn.discordapp.com/avatars/769535992087576587/8cb755f84f026dabbe07850ba4edb021.webp?size=128';
+    let img = 'https://cdn.discordapp.com/avatars/664784922875265024/04935bda2381b0166f5fbfe41671ca05.webp?size=128';
     var duration = moment.duration(client.uptime).format(" D [일], H [시간], m [분], s [초]");
     embed.setColor('#186de6')
-    embed.setAuthor('server info of 3D bot', img)
-    embed.setFooter(`3D bot`)
+    embed.setAuthor('server info of 콜라곰 BOT', img)
+    embed.setFooter(`3D BOT`)
     embed.addBlankField()
     embed.addField('RAM usage',    `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true);
     embed.addField('running time', `${duration}`, true);
@@ -66,6 +66,7 @@ client.on('message', (message) => {
     message.channel.send(embed);
   }
 
+  
   if(message.content == '!전체공지') {
     let img = 'https://cdn.discordapp.com/avatars/664784922875265024/04935bda2381b0166f5fbfe41671ca05.webp?size=128';
     let embed = new Discord.RichEmbed()
