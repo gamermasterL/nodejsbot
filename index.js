@@ -54,7 +54,7 @@ client.on('message', (message) => {
       .setFooter('GamerK 2', img)
 
     message.channel.send(embed)
-  } else if(message.content == '!help bot') {
+  } else if(message.content == '!helpbot') {
     let helpImg = 'https://cdn.discordapp.com/avatars/769535992087576587/8cb755f84f026dabbe07850ba4edb021.webp?size=128';
     let commandList = [
       {name: 'embed', desc: 'embed 예제1'},
