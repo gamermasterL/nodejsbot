@@ -89,7 +89,8 @@ client.on('message', (message) => {
     } else {
       return message.reply('채널에서 실행해주세요.');
     }
-  }if(message.content.startsWith('!청소')) {
+  }
+  if(message.content.startsWith('!청소')) {
     if(checkPermission(message)) return
 
     var clearLine = message.content.slice('!청소 '.length);
@@ -146,6 +147,7 @@ function changeCommandStringLength(str, limitLen = 8) {
 
   return tmp;
 }
+
 async function AutoMsgDelete(message, str, delay = 3000) {
   let msg = await message.channel.send(str);
 
