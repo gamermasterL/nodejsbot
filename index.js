@@ -35,7 +35,7 @@ client.on('message', (message) => {
     return message.reply('pong');
   }
 
-  if(message.content == '!embed') {
+  if(message.content == '!전체공지') {
     let img = 'https://cdn.discordapp.com/avatars/664784922875265024/04935bda2381b0166f5fbfe41671ca05.webp?size=128';
     let embed = new Discord.RichEmbed()
       .setTitle('공지사항')
