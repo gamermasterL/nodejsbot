@@ -55,7 +55,7 @@ client.on('message', (message) => {
     let helpImg = 'https://cdn.discordapp.com/avatars/769535992087576587/8cb755f84f026dabbe07850ba4edb021.webp?size=128';
     let commandList = [
       {name: '!전체공지 또는 !긴급공지', desc: '관리자용 공지 명령어'},
-      {name: '!help bot', desc: 'bot 명령어 도움말'},
+      {name: '!helpbot', desc: 'bot 명령어 도움말'},
       {name: '!청소 + 숫자', desc:'관리자용 채팅 내용 청소'},
       {name: '!rank', desc: 'Show your rank go to bot'},
       {name: '!초대코드', desc:'초대코드 발급받기 Get the invite code'}
