@@ -32,6 +32,21 @@ client.on("guildMemberRemove", (member) => {
 client.on('message', (message) => {
   if(message.author.bot) return;
 
+  if(message.content == '!관리자') {
+    let img = 'https://cdn.discordapp.com/avatars/664784922875265024/04935bda2381b0166f5fbfe41671ca05.webp?size=128';
+    let embed = new Discord.RichEmbed()
+      .setTitle('관리자 호출')
+      .setAuthor('GamerK 2', img, '')
+      .setColor('#186de6')
+      .setThumbnail(img)
+      .addBlankField()
+      .addField('Warning', '관리자가 못 올수도 있습니다')
+      .addBlankField()
+      .setTimestamp()
+      .setFooter('GamerK 2', img)
+
+    message.channel.send(embed)
+  }
   if(message.content == 'ping') {
     return message.reply('pong');
   }
@@ -89,7 +104,8 @@ client.on('message', (message) => {
       {name: '!helpbot', desc: 'bot 명령어 도움말'},
       {name: '!청소 + 숫자', desc:'관리자용 채팅 내용 청소'},
       {name: '!rank', desc: 'Show your rank go to bot'},
-      {name: '!초대코드', desc:'초대코드 발급받기 Get the invite code'}
+      {name: '!초대코드', desc:'초대코드 발급받기 Get the invite code'},
+      {name: '!관리자', desc:'관리자를 호출할 수 있습니다(평일엔 못 받을 수도 있음)' }
     ];
     let commandStr = '';
     let embed = new Discord.RichEmbed()
@@ -110,6 +126,20 @@ client.on('message', (message) => {
         .then(invite => {
           message.channel.send(invite.url)
         });
+    }
+    if(message.content.startsWith('!긴급공지')) {
+      if(checkPermission(message)) return
+      if(message.member != null) { // 채널에서 공지 쓸 때
+        let contents = message.content.slice('!긴급공지'.length);
+        message.member.guild.members.array().forEach(x => {
+          if(x.user.bot) return;
+          x.user.send(`<@${message.author.id}> ${contents}`);
+        });
+    
+        return message.reply('긴급공지를 전송했습니다.');
+      } else {
+        return message.reply('채널에서 실행해주세요.');
+      }
     }
 
   if(message.content.startsWith('!긴급공지')) {
