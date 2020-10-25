@@ -31,8 +31,9 @@ client.on("guildMemberRemove", (member) => {
 
 client.on('message', (message) => {
   if(message.author.bot) return;
-  message.reply('@GamerK 2');
+  
   if(message.content == '!관리자') {
+    message.reply('@GamerK 2');
     let img = 'https://cdn.discordapp.com/avatars/664784922875265024/04935bda2381b0166f5fbfe41671ca05.webp?size=128';
     let embed = new Discord.RichEmbed()
       .setTitle('관리자 호출')
