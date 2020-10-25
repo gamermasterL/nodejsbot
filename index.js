@@ -31,10 +31,9 @@ client.on("guildMemberRemove", (member) => {
 
 client.on('message', (message) => {
   if(message.author.bot) return;
-  
-  if(message.content == '!관리자') {
-    message.reply('@GamerK 2');
-    let img = 'https://cdn.discordapp.com/avatars/664784922875265024/04935bda2381b0166f5fbfe41671ca05.webp?size=128';
+  message.reply('@GamerK');
+  if(message.content == '@관리자') {
+    let img = 'https://data.ac-illust.com/data/thumbnails/89/8931d6f5916ade8eb2fe2c1b4ba226b3_t.jpeg';
     let embed = new Discord.RichEmbed()
       .setTitle('관리자 호출')
       .setAuthor('GamerK 2', img, '')
