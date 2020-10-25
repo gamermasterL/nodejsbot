@@ -8,6 +8,7 @@ const byeChannelComment = "안녕히가세요.";
 
 client.on('ready', () => {
   console.log('켰다.');
+  client.user.setPresence({ game: { name: '!help를 쳐보세요.' }, status: 'online' })
 });
 
 client.on("guildMemberAdd", (member) => {
@@ -56,7 +57,8 @@ client.on('message', (message) => {
       {name: '!전체공지 또는 !긴급공지', desc: '관리자용 공지 명령어'},
       {name: '!help bot', desc: 'bot 명령어 도움말'},
       {name: '!청소 + 숫자', desc:'관리자용 채팅 내용 청소'},
-      {name: '!rank', desc: 'Show your rank go to bot'}
+      {name: '!rank', desc: 'Show your rank go to bot'},
+      {name: '!초대코드', desc:'초대코드 발급받기 Get the invite code'}
     ];
     let commandStr = '';
     let embed = new Discord.RichEmbed()
@@ -65,14 +67,19 @@ client.on('message', (message) => {
       .setFooter(`Made by GamerK 2`)
       .setTimestamp()
     
-    commandList.forEach(x => {
-      commandStr += `• \`\`${changeCommandStringLength(`${x.name}`)}\`\` : **${x.desc}**\n`;
-    });
-
-    embed.addField('Commands: ', commandStr);
-
-    message.channel.send(embed)
-  }
+      commandList.forEach(x => {
+        commandStr += `• \`\`${changeCommandStringLength(`${x.name}`)}\`\` : **${x.desc}**\n`;
+      });
+  
+      embed.addField('Commands: ', commandStr);
+  
+      message.channel.send(embed)
+    } else if(message.content == '!초대코드') {
+      message.guild.channels.get(message.channel.id).createInvite({maxAge: 0}) // maxAge: 0은 무한이라는 의미, maxAge부분을 지우면 24시간으로 설정됨
+        .then(invite => {
+          message.channel.send(invite.url)
+        });
+    }
 
   if(message.content.startsWith('!긴급공지')) {
     if(checkPermission(message)) return
