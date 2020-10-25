@@ -35,7 +35,7 @@ client.on('message', (message) => {
   if(message.content == 'ping') {
     return message.reply('pong');
   }
-  f(message.content == '!server'); {
+  f(message.content == '!server');  {
     let embed = new Discord.RichEmbed()
     let img = 'https://cdn.discordapp.com/avatars/769535992087576587/8cb755f84f026dabbe07850ba4edb021.webp?size=128';
     var duration = moment.duration(client.uptime).format(" D [일], H [시간], m [분], s [초]");
