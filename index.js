@@ -39,16 +39,12 @@ client.on('message', (message) => {
     let img = 'https://cdn.discordapp.com/avatars/664784922875265024/04935bda2381b0166f5fbfe41671ca05.webp?size=128';
     let embed = new Discord.RichEmbed()
       .setTitle('공지사항')
-      .setURL('http://www.naver.com')
-      .setAuthor('GamerK 2', img, 'http://www.naver.com')
+      .setAuthor('GamerK 2', img, '')
       .setColor('#186de6')
       .setThumbnail(img)
       .addBlankField()
-      .addField('Inline field title', 'Some value here')
-      .addField('Inline field title', 'Some value here', true)
-      .addField('Inline field title', 'Some value here', true)
-      .addField('Inline field title', 'Some value here', true)
-      .addField('Inline field title', 'Some value here1\nSome value here2\nSome value here3\n')
+      .addField('2020/10/25 1번째 공지', 'mindustry 3D project server is opened!')
+      .addField('Inline field title', '1.we need supporter for this server  \n2.If you want suggest idea, go to #suggestions')
       .addBlankField()
       .setTimestamp()
       .setFooter('GamerK 2', img)
@@ -57,15 +53,16 @@ client.on('message', (message) => {
   } else if(message.content == '!helpbot') {
     let helpImg = 'https://cdn.discordapp.com/avatars/769535992087576587/8cb755f84f026dabbe07850ba4edb021.webp?size=128';
     let commandList = [
-      {name: 'embed', desc: 'embed 예제1'},
+      {name: '!전체공지 또는 !긴급공지', desc: '관리자용 공지 명령어'},
       {name: '!help bot', desc: 'bot 명령어 도움말'},
-      {name: '!청소 + 숫자', desc:'관리자용 채팅 내용 청소'}
+      {name: '!청소 + 숫자', desc:'관리자용 채팅 내용 청소'},
+      {name: '!rank', desc: 'Show your rank go to bot'}
     ];
     let commandStr = '';
     let embed = new Discord.RichEmbed()
       .setAuthor('Help of 3D BOT', helpImg)
       .setColor('#186de6')
-      .setFooter(`GamerK 2`)
+      .setFooter(`Made by GamerK 2`)
       .setTimestamp()
     
     commandList.forEach(x => {
