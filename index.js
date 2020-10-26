@@ -32,7 +32,7 @@ client.on("guildMemberRemove", (member) => {
 client.on('message', (message) => {
   if(message.author.bot) return;
 
-  if(message.content.startsWith('!역할추가')) {
+  if(message.content.startsWith('!밴 밴(ban player) ')) {
     if(message.channel.type == 'dm') {
       return message.reply('dm에서 사용할 수 없는 명령어 입니다.');
     }
@@ -41,23 +41,10 @@ client.on('message', (message) => {
     if(message.content.split('<@').length == 3) {
       if(message.content.split(' ').length != 3) return;
 
-      var userId = message.content.split(' ')[1].match(/[\u3131-\uD79D^a-zA-Z^0-9]/ugi).join('')
-      var role = message.content.split(' ')[2].match(/[\u3131-\uD79D^a-zA-Z^0-9]/ugi).join('')
+      var userId = message.content.split(' ')[2].match(/[\u3131-\uD79D^a-zA-Z^0-9]/ugi).join('')
+      var role = message.content.split(' ')[1].match(/[\u3131-\uD79D^a-zA-Z^0-9]/ugi).join('')
 
       message.member.guild.members.find(x => x.id == userId).addRole(role);
-    }
-  }
-  if(message.content.startsWith('!밴')) {
-    if(message.channel.type == 'dm') {
-      return message.reply('dm에서 사용할 수 없는 명령어 입니다.');
-    }
-    if(message.channel.type != 'dm' && checkPermission(message)) return
-
-    if(message.content.split('<@').length == 3) {
-      if(message.content.split(' ').length != 3) return;
-
-      var userId = message.content.split(' ')[1].match(/[\u3131-\uD79D^a-zA-Z^0-9]/ugi).join('')
-      member.addRole(userId.roles.find(role => role.name == "밴(ban player)"));
     }
   }
   if(message.content == '@관리자') {
@@ -205,9 +192,36 @@ client.on('message', (message) => {
         })
         .catch(console.error)
     }
-  }
+  } else if(message.content.startsWith('!강퇴')) {
+    if(message.channel.type == 'dm') {
+      return message.reply('dm에서 사용할 수 없는 명령어 입니다.');
+    }
+    
+    if(message.channel.type != 'dm' && checkPermission(message)) return
 
+    console.log(message.mentions);
+
+    let userId = message.mentions.users.first().id;
+    let kick_msg = message.author.username+'#'+message.author.discriminator+'이(가) 강퇴시켰습니다.';
+    
+    message.member.guild.members.find(x => x.id == userId).kick(kick_msg)
+  } else if(message.content.startsWith('!밴')) {
+    if(message.channel.type == 'dm') {
+      return message.reply('dm에서 사용할 수 없는 명령어 입니다.');
+    }
+    
+    if(message.channel.type != 'dm' && checkPermission(message)) return
+
+    console.log(message.mentions);
+
+    let userId = message.mentions.users.first().id;
+    let kick_msg = message.author.username+'#'+message.author.discriminator+'이(가) 강퇴시켰습니다.';
+
+    message.member.guild.members.find(x => x.id == userId).ban(kick_msg)
+  }
 });
+
+
 
 function checkPermission(message) {
   if(!message.member.hasPermission("MANAGE_MESSAGES")) {
