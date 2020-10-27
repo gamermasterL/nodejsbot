@@ -28,9 +28,7 @@ client.on("guildMemberRemove", (member) => {
 
   byeChannel.send(`<@${deleteUser.id}> ${byeChannelComment}\n`);
 });
-
-client.on('message', (message) => {
-  if (!message.guild) return;
+if (!message.guild) return;
   if (msg.content.startsWith("dice")) {
     m = msg.content.split(' ');
     if (m[1] === undefined && m[2] === undefined) 
@@ -40,6 +38,8 @@ client.on('message', (message) => {
     else
         msg.channel.send(mathf.randomInt(parseInt(m[1]), parseInt(m[2])));
 }
+client.on('message', (message) => {
+  
   if (message.content.startsWith('!ban')) {
     // Assuming we mention someone in the message, this will return the user
     // Read more about mentions over at https://discord.js.org/#/docs/main/master/class/MessageMentions
