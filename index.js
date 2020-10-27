@@ -30,23 +30,20 @@ client.on("guildMemberRemove", (member) => {
 });
 
 client.on('message', (message) => {
-  if (msg.content.startsWith("!kick ")) {
-    if (msg.mentions.members.first()) {
-        msg.mentions.members.first.kick().then((member) => {
-            msg.channel.send(":wave: " + member.displayName + " 가 강퇴 되었습니다 ");
-        }).catch(() => {
-            msg.channel.send("강퇴할 권한이 없습니다");
-        });
-    }
-  }else if (msg.content.startsWith("!ban ")) {
-    if (msg.mentions.members.first()) {
-        msg.mentions.members.first.ban().then((member) => {
-            msg.channel.send(":wave: " + member.displayName + "  가 밴 되었습니다 ");
-        }).catch(() => {
-            msg.channel.send("밴할 권한이 없습니다");
-        });
-      }
-    }
+  if (message.content.startWith(`${prefix}ban`)){
+    let buser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+    if (!buser) return message.channel.send("Please provid a user to ban")
+    let reason = args.join(" ").slice(22)
+    if (!reason) return message.channel.send("Please provide a reason")
+    if(!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send("You don't have acces to this command")
+    if (buser.hasPermission("BAN_MEMBERS")) return message.channel.send("This user has the perm ban user")
+    let embed = new Discord.RichEmbed()
+    buser.ban()
+    .setAuthor("Ban")
+    .setDescription(`The user ${buser} has been ban for: ${reason}\n by the admin ${message.author.tag}`)
+    bot.channels.get("an channel id").send(embed);
+  }
+  
   if(message.author.bot) return;
   if(message.content == '@관리자') {
     message.reply('@GamerK');
