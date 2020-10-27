@@ -32,6 +32,48 @@ client.on("guildMemberRemove", (member) => {
 client.on('message', (message) => {
   if (!message.guild) return;
 
+  if (message.content.startsWith('!ban')) {
+    // Assuming we mention someone in the message, this will return the user
+    // Read more about mentions over at https://discord.js.org/#/docs/main/master/class/MessageMentions
+    const user = message.mentions.users.first();
+    // If we have a user mentioned
+    if (user) {
+      // Now we get the member from the user
+      const member = message.guild.member(user);
+      // If the member is in the guild
+      if (member) {
+        /**
+         * Ban the member
+         * Make sure you run this on a member, not a user!
+         * There are big differences between a user and a member
+         * Read more about what ban options there are over at
+         * https://discord.js.org/#/docs/main/master/class/GuildMember?scrollTo=ban
+         */
+        member
+          .ban({
+            reason: 'They were bad!',
+          })
+          .then(() => {
+            // We let the message author know we were able to ban the person
+            message.reply(`Successfully banned ${user.tag}`);
+          })
+          .catch(err => {
+            // An error happened
+            // This is generally due to the bot not being able to ban the member,
+            // either due to missing permissions or role hierarchy
+            message.reply('I was unable to ban the member');
+            // Log the error
+            console.error(err);
+          });
+      } else {
+        // The mentioned user isn't in this guild
+        message.reply("That user isn't in this guild!");
+      }
+    } else {
+      // Otherwise, if no user was mentioned
+      message.reply("You didn't mention the user to ban!");
+    }
+  }
   // If the message content starts with "!kick"
   if (message.content.startsWith('!kick')) {
     // Assuming we mention someone in the message, this will return the user
@@ -143,12 +185,14 @@ client.on('message', (message) => {
   } else if(message.content == '!helpbot') {
     let helpImg = 'https://cdn.discordapp.com/avatars/769535992087576587/8cb755f84f026dabbe07850ba4edb021.webp?size=128';
     let commandList = [
+      {name: '!helpbot', desc: '봇 명령어 도움말'},
       {name: '!전체공지 또는 !긴급공지', desc: '관리자용 공지 명령어'},
-      {name: '!helpbot', desc: 'bot 명령어 도움말'},
+      {name: '!kick + @ + 유저 닉네임', desc:'관리자용 유저 킥 명령어'},
+      {name: '!ban + @ + 유저 닉네임', desc:'관리자용 유저 밴 명령어'},
       {name: '!청소 + 숫자', desc:'관리자용 채팅 내용 청소'},
-      {name: '!rank', desc: 'Show your rank go to bot'},
-      {name: '!초대코드', desc:'초대코드 발급받기 Get the invite code'},
-      {name: '!관리자', desc:'관리자를 호출할 수 있습니다(평일엔 못 갈 수도 있음),호출 사유가 불분명하면 밴 되므로 주의하세요' }
+      {name: '!rank', desc: 'MEE6봇이 당신의 랭크를 띄웁니다 '},
+      {name: '!초대코드', desc:'초대코드 발급받기'},
+      {name: '!관리자', desc:'관리자를 호출할 수 있습니다(평일엔 못 갈 수도 있음),호출 사유가 불분명하면 경고 당하므로 주의하세요' },
     ];
     let commandStr = '';
     let embed = new Discord.RichEmbed()
