@@ -33,7 +33,7 @@ client.on('message', (message) => {
   if (!message.guild) return;
   if (msg.content.startsWith("dice")) {
     m = msg.content.split(' ');
-    if (m[1] === undefined && m[2] === undefined)
+    if (m[1] === undefined && m[2] === undefined) 
         msg.channel.send("`dice [정수] [정수]` 또는 `dice [정수]`와 같이 입력해주세요");
     else if (m[2] === undefined)
         msg.channel.send(mathf.randomInt(0, parseInt(m[1])));
