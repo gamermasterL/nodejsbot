@@ -197,7 +197,7 @@ client.on('message', (message) => {
       return message.reply('dm에서 사용할 수 없는 명령어 입니다.');
     }
     
-    if(message.channel.type != 'dm' && checkPermission(message)) return
+    if(message.channel.type != 'chat채팅' && checkPermission(message)) return
 
     console.log(message.mentions);
 
@@ -205,20 +205,7 @@ client.on('message', (message) => {
     let kick_msg = message.author.username+'#'+message.author.discriminator+'이(가) 강퇴시켰습니다.';
     
     message.member.guild.members.find(x => x.id == userId).kick(kick_msg)
-  } else if(message.content.startsWith('!밴')) {
-    if(message.channel.type == 'dm') {
-      return message.reply('dm에서 사용할 수 없는 명령어 입니다.');
-    }
-    
-    if(message.channel.type != 'dm' && checkPermission(message)) return
-
-    console.log(message.mentions);
-
-    let userId = message.mentions.users.first().id;
-    let kick_msg = message.author.username+'#'+message.author.discriminator+'이(가) 강퇴시켰습니다.';
-
-    message.member.guild.members.find(x => x.id == userId).ban(kick_msg)
-  }
+  } 
 });
 
 
