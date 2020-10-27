@@ -1,14 +1,41 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const token = process.argv.length == 2 ? process.env.token : '';
-const welcomeChannelName = "welcome";
+const token = process.argv.length == 2 ? process.env.token : "";
+const moment = require("moment");
+require("moment-duration-format");
+const momenttz = require('moment-timezone');
+const MessageAdd = require('./db/message_add.js')
+const welcomeChannelName = "안녕하세요";
 const byeChannelName = "안녕히가세요";
-const welcomeChannelComment = "welcome to 3D project server!";
+const welcomeChannelComment = "어서오세요.";
 const byeChannelComment = "안녕히가세요.";
+const adminUserId = 250693463065100298;
 
 client.on('ready', () => {
   console.log('켰다.');
-  client.user.setPresence({ game: { name: '!helpbot를 쳐보세요.' }, status: 'online' })
+  client.user.setPresence({ game: { name: '!help를 쳐보세요.' }, status: 'online' })
+
+  let state_list = [
+    '!help를 쳐보세요.',
+    '메렁메렁',
+    '에베베베베',
+  ]
+  let state_list_index = 1;
+  let change_delay = 3000; // 이건 초입니당. 1000이 1초입니당.
+
+  function changeState() {
+    setTimeout(() => {
+      // console.log( '상태 변경 -> ', state_list[state_list_index] );
+      client.user.setPresence({ game: { name: state_list[state_list_index] }, status: 'online' })
+      state_list_index += 1;
+      if(state_list_index >= state_list.length) {
+        state_list_index = 0;
+      }
+      changeState()
+    }, change_delay);
+  }
+
+  // changeState();
 });
 
 client.on("guildMemberAdd", (member) => {
@@ -18,7 +45,7 @@ client.on("guildMemberAdd", (member) => {
 
   welcomeChannel.send(`<@${newUser.id}> ${welcomeChannelComment}\n`);
 
-  member.addRole(guild.roles.find(role => role.name == "guest"));
+  member.addRole(guild.roles.find(role => role.name == "게스트"));
 });
 
 client.on("guildMemberRemove", (member) => {
@@ -29,10 +56,35 @@ client.on("guildMemberRemove", (member) => {
   byeChannel.send(`<@${deleteUser.id}> ${byeChannelComment}\n`);
 });
 
+client.on("messageUpdate", (message) => {
+  MessageSave(message, true)
+});
+
 client.on('message', (message) => {
+  MessageSave(message)
   if(message.author.bot) return;
 
-  if(message.content.startsWith('!밴 밴(ban player) ')) {
+  if(message.channel.type == 'dm') {
+    if(message.author.id == adminUserId) return;
+
+    /* not use embed */
+    let msg = message.author+'이(가) 메세지를 보냈습니다.\n'+message.content;
+    client.users.find(x => x.id == adminUserId).send(msg)
+
+    // /* use embed */
+    // let embed = new Discord.RichEmbed()
+    // let img = message.author.avatar ? `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.webp?size=256` : undefined;
+    // let user = message.author.username+'#'+message.author.discriminator
+    // let msg = message.content;
+    // embed.setColor('#186de6')
+    // embed.setAuthor(user+'이(가) 메세지를 보냈습니다.', img)
+    // embed.setFooter(`콜라곰 BOT ❤️`)
+    // embed.addField('메세지 내용', msg, true);
+    // embed.setTimestamp()
+    // client.users.find(x => x.id == adminUserId).send(embed);
+  }
+
+  if(message.content.startsWith('!역할추가')) {
     if(message.channel.type == 'dm') {
       return message.reply('dm에서 사용할 수 없는 명령어 입니다.');
     }
@@ -41,39 +93,24 @@ client.on('message', (message) => {
     if(message.content.split('<@').length == 3) {
       if(message.content.split(' ').length != 3) return;
 
-      var userId = message.content.split(' ')[2].match(/[\u3131-\uD79D^a-zA-Z^0-9]/ugi).join('')
-      var role = message.content.split(' ')[1].match(/[\u3131-\uD79D^a-zA-Z^0-9]/ugi).join('')
+      var userId = message.content.split(' ')[1].match(/[\u3131-\uD79D^a-zA-Z^0-9]/ugi).join('')
+      var role = message.content.split(' ')[2].match(/[\u3131-\uD79D^a-zA-Z^0-9]/ugi).join('')
 
       message.member.guild.members.find(x => x.id == userId).addRole(role);
     }
   }
-  if(message.content == '@관리자') {
-    message.reply('@GamerK');
-    let img = 'https://data.ac-illust.com/data/thumbnails/89/8931d6f5916ade8eb2fe2c1b4ba226b3_t.jpeg';
-    let embed = new Discord.RichEmbed()
-      .setTitle('관리자 호출')
-      .setAuthor('GamerK 2', img, '')
-      .setColor('#186de6')
-      .setThumbnail(img)
-      .addBlankField()
-      .addField('Warning', '관리자가 못 올수도 있습니다')
-      .addField('Warning', '호출 사유가 불분명하면 밴 되므로 주의하세요')
-      .addBlankField()
-      .setTimestamp()
-      .setFooter('GamerK 2', img)
 
-    message.channel.send(embed)
-  }
   if(message.content == 'ping') {
     return message.reply('pong');
-      }
+  }
+
   if(message.content == '!si') {
     let embed = new Discord.RichEmbed()
-    let img = 'https://cdn.discordapp.com/avatars/664784922875265024/04935bda2381b0166f5fbfe41671ca05.webp?size=128';
+    let img = 'https://cdn.discordapp.com/icons/419671192857739264/6dccc22df4cb0051b50548627f36c09b.webp?size=256';
     var duration = moment.duration(client.uptime).format(" D [일], H [시간], m [분], s [초]");
     embed.setColor('#186de6')
-    embed.setAuthor('server info of 3D BOT', img)
-    embed.setFooter(`3D BOT`)
+    embed.setAuthor('server info of 콜라곰 BOT', img)
+    embed.setFooter(`콜라곰 BOT ❤️`)
     embed.addBlankField()
     embed.addField('RAM usage',    `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true);
     embed.addField('running time', `${duration}`, true);
@@ -97,68 +134,116 @@ client.on('message', (message) => {
     embed.setTimestamp()
     message.channel.send(embed);
   }
-    
-  if(message.content == '!전체공지') {
-    let img = 'https://cdn.discordapp.com/avatars/664784922875265024/04935bda2381b0166f5fbfe41671ca05.webp?size=128';
+
+  if(message.content == 'embed') {
+    let img = 'https://cdn.discordapp.com/icons/419671192857739264/6dccc22df4cb0051b50548627f36c09b.webp?size=256';
     let embed = new Discord.RichEmbed()
-      .setTitle('공지사항')
-      .setAuthor('GamerK 2', img, '')
-      .setColor('#186de6')
+      .setTitle('타이틀')
+      .setURL('http://www.naver.com')
+      .setAuthor('나긋해', img, 'http://www.naver.com')
       .setThumbnail(img)
       .addBlankField()
-      .addField('2020/10/25 1번째 공지', 'mindustry 3D project server is opened!')
-      .addField('Inline field title', '1.we need supporter for this server  \n2.If you want suggest idea, go to #suggestions')
+      .addField('Inline field title', 'Some value here')
+      .addField('Inline field title', 'Some value here', true)
+      .addField('Inline field title', 'Some value here', true)
+      .addField('Inline field title', 'Some value here', true)
+      .addField('Inline field title', 'Some value here1\nSome value here2\nSome value here3\n')
       .addBlankField()
       .setTimestamp()
-      .setFooter('GamerK 2', img)
+      .setFooter('나긋해가 만듬', img)
 
     message.channel.send(embed)
-  } else if(message.content == '!helpbot') {
-    let helpImg = 'https://cdn.discordapp.com/avatars/769535992087576587/8cb755f84f026dabbe07850ba4edb021.webp?size=128';
+  } else if(message.content == '!help') {
+    let helpImg = 'https://images-ext-1.discordapp.net/external/RyofVqSAVAi0H9-1yK6M8NGy2grU5TWZkLadG-rwqk0/https/i.imgur.com/EZRAPxR.png';
     let commandList = [
-      {name: '!전체공지 또는 !긴급공지', desc: '관리자용 공지 명령어'},
-      {name: '!helpbot', desc: 'bot 명령어 도움말'},
-      {name: '!청소 + 숫자', desc:'관리자용 채팅 내용 청소'},
-      {name: '!rank', desc: 'Show your rank go to bot'},
-      {name: '!초대코드', desc:'초대코드 발급받기 Get the invite code'},
-      {name: '!관리자', desc:'관리자를 호출할 수 있습니다(평일엔 못 갈 수도 있음),호출 사유가 불분명하면 밴 되므로 주의하세요' }
+      {name: '!help', desc: 'help'},
+      {name: 'ping', desc: '현재 핑 상태'},
+      {name: 'embed', desc: 'embed 예제1'},
+      {name: '!전체공지', desc: 'dm으로 전체 공지 보내기'},
+      {name: '!전체공지2', desc: 'dm으로 전체 embed 형식으로 공지 보내기'},
+      {name: '!청소', desc: '텍스트 지움'},
+      {name: '!초대코드', desc: '해당 채널의 초대 코드 표기'},
+      {name: '!초대코드2', desc: '봇이 들어가있는 모든 채널의 초대 코드 표기'},
     ];
     let commandStr = '';
     let embed = new Discord.RichEmbed()
-      .setAuthor('Help of 3D BOT', helpImg)
+      .setAuthor('Help of 콜라곰 BOT', helpImg)
       .setColor('#186de6')
-      .setFooter(`Made by GamerK 2`)
+      .setFooter(`콜라곰 BOT ❤️`)
       .setTimestamp()
     
-      commandList.forEach(x => {
-        commandStr += `• \`\`${changeCommandStringLength(`${x.name}`)}\`\` : **${x.desc}**\n`;
-      });
-  
-      embed.addField('Commands: ', commandStr);
-  
-      message.channel.send(embed)
-    } else if(message.content == '!초대코드') {
-      message.guild.channels.get(message.channel.id).createInvite({maxAge: 0}) // maxAge: 0은 무한이라는 의미, maxAge부분을 지우면 24시간으로 설정됨
+    commandList.forEach(x => {
+      commandStr += `• \`\`${changeCommandStringLength(`${x.name}`)}\`\` : **${x.desc}**\n`;
+    });
+
+    embed.addField('Commands: ', commandStr);
+
+    message.channel.send(embed)
+  } else if(message.content == '!초대코드2') {
+    client.guilds.array().forEach(x => {
+      x.channels.find(x => x.type == 'text').createInvite({maxAge: 0}) // maxAge: 0은 무한이라는 의미, maxAge부분을 지우면 24시간으로 설정됨
         .then(invite => {
           message.channel.send(invite.url)
-        });
+        })
+        .catch((err) => {
+          if(err.code == 50013) {
+            message.channel.send('**'+x.channels.find(x => x.type == 'text').guild.name+'** 채널 권한이 없어 초대코드 발행 실패')
+          }
+        })
+    });
+  } else if(message.content == '!초대코드') {
+    if(message.channel.type == 'dm') {
+      return message.reply('dm에서 사용할 수 없는 명령어 입니다.');
     }
-    if(message.content.startsWith('!긴급공지')) {
-      if(checkPermission(message)) return
-      if(message.member != null) { // 채널에서 공지 쓸 때
-        let contents = message.content.slice('!긴급공지'.length);
-        message.member.guild.members.array().forEach(x => {
-          if(x.user.bot) return;
-          x.user.send(`<@${message.author.id}> ${contents}`);
-        });
-    
-        return message.reply('긴급공지를 전송했습니다.');
-      } else {
-        return message.reply('채널에서 실행해주세요.');
-      }
-    }
-  if(message.content.startsWith('!청소')) {
+    message.guild.channels.get(message.channel.id).createInvite({maxAge: 0}) // maxAge: 0은 무한이라는 의미, maxAge부분을 지우면 24시간으로 설정됨
+      .then(invite => {
+        message.channel.send(invite.url)
+      })
+      .catch((err) => {
+        if(err.code == 50013) {
+          message.channel.send('**'+message.guild.channels.get(message.channel.id).guild.name+'** 채널 권한이 없어 초대코드 발행 실패')
+        }
+      })
+  } else if(message.content.startsWith('!전체공지2')) {
     if(checkPermission(message)) return
+    if(message.member != null) { // 채널에서 공지 쓸 때
+      let contents = message.content.slice('!전체공지2'.length);
+      let embed = new Discord.RichEmbed()
+        .setAuthor('공지 of 콜라곰 BOT')
+        .setColor('#186de6')
+        .setFooter(`콜라곰 BOT ❤️`)
+        .setTimestamp()
+  
+      embed.addField('공지: ', contents);
+  
+      message.member.guild.members.array().forEach(x => {
+        if(x.user.bot) return;
+        x.user.send(embed)
+      });
+  
+      return message.reply('공지를 전송했습니다.');
+    } else {
+      return message.reply('채널에서 실행해주세요.');
+    }
+  } else if(message.content.startsWith('!전체공지')) {
+    if(checkPermission(message)) return
+    if(message.member != null) { // 채널에서 공지 쓸 때
+      let contents = message.content.slice('!전체공지'.length);
+      message.member.guild.members.array().forEach(x => {
+        if(x.user.bot) return;
+        x.user.send(`<@${message.author.id}> ${contents}`);
+      });
+  
+      return message.reply('공지를 전송했습니다.');
+    } else {
+      return message.reply('채널에서 실행해주세요.');
+    }
+  } else if(message.content.startsWith('!청소')) {
+    if(message.channel.type == 'dm') {
+      return message.reply('dm에서 사용할 수 없는 명령어 입니다.');
+    }
+    
+    if(message.channel.type != 'dm' && checkPermission(message)) return
 
     var clearLine = message.content.slice('!청소 '.length);
     var isNum = !isNaN(clearLine)
@@ -172,10 +257,9 @@ client.on('message', (message) => {
 
         var user = message.content.split(' ')[1].split('<@!')[1].split('>')[0];
         var count = parseInt(message.content.split(' ')[2])+1;
-        const _limit = 10;
         let _cnt = 0;
 
-        message.channel.fetchMessages({limit: _limit}).then(collected => {
+        message.channel.fetchMessages().then(collected => {
           collected.every(msg => {
             if(msg.author.id == user) {
               msg.delete();
@@ -197,7 +281,7 @@ client.on('message', (message) => {
       return message.reply('dm에서 사용할 수 없는 명령어 입니다.');
     }
     
-    if(message.channel.type != 'chat채팅' && checkPermission(message)) return
+    if(message.channel.type != 'dm' && checkPermission(message)) return
 
     console.log(message.mentions);
 
@@ -205,10 +289,21 @@ client.on('message', (message) => {
     let kick_msg = message.author.username+'#'+message.author.discriminator+'이(가) 강퇴시켰습니다.';
     
     message.member.guild.members.find(x => x.id == userId).kick(kick_msg)
-  } 
+  } else if(message.content.startsWith('!밴')) {
+    if(message.channel.type == 'dm') {
+      return message.reply('dm에서 사용할 수 없는 명령어 입니다.');
+    }
+    
+    if(message.channel.type != 'dm' && checkPermission(message)) return
+
+    console.log(message.mentions);
+
+    let userId = message.mentions.users.first().id;
+    let kick_msg = message.author.username+'#'+message.author.discriminator+'이(가) 강퇴시켰습니다.';
+
+    message.member.guild.members.find(x => x.id == userId).ban(kick_msg)
+  }
 });
-
-
 
 function checkPermission(message) {
   if(!message.member.hasPermission("MANAGE_MESSAGES")) {
@@ -236,6 +331,76 @@ async function AutoMsgDelete(message, str, delay = 3000) {
   setTimeout(() => {
     msg.delete();
   }, delay);
+}
+
+function getEmbedFields(message, modify=false) {
+  if(message.content == '' && message.embeds.length > 0) {
+    let e = message.embeds[0].fields;
+    let a = [];
+
+    for(let i=0;i<e.length;i++) {
+        a.push(`\`${e[i].name}\` - \`${e[i].value}\`\n`);
+    }
+
+    return a.join('');
+  } else if(modify) {
+    return message.author.lastMessage.content;
+  } else {
+    return message.content;
+  }
+}
+
+function MessageSave(message, modify=false) {
+  imgs = []
+  if (message.attachments.array().length > 0) {
+    message.attachments.array().forEach(x => {
+      imgs.push(x.url+'\n')
+    });
+  }
+
+  username = message.author.username.match(/[\u3131-\uD79D^a-zA-Z^0-9]/ugi)
+  channelName = message.channel.type != 'dm' ? message.channel.name : ''
+  try {
+    username = username.length > 1 ? username.join('') : username
+  } catch (error) {}
+
+  try {
+    channelName = channelName.length > 1 ? channelName.join('') : channelName
+  } catch (error) {}
+
+  var s = {
+    ChannelType: message.channel.type,
+    ChannelId: message.channel.type != 'dm' ? message.channel.id : '',
+    ChannelName: channelName,
+    GuildId: message.channel.type != 'dm' ? message.channel.guild.id : '',
+    GuildName: message.channel.type != 'dm' ? message.channel.guild.name : '',
+    Message: getEmbedFields(message, modify),
+    AuthorId: message.author.id,
+    AuthorUsername: username + '#' + message.author.discriminator,
+    AuthorBot: Number(message.author.bot),
+    Embed: Number(message.embeds.length > 0), // 0이면 false 인거다.
+    CreateTime: momenttz().tz('Asia/Seoul').locale('ko').format('ll dddd LTS')
+  }
+
+  s.Message = (modify ? '[수정됨] ' : '') + imgs.join('') + s.Message
+
+  MessageAdd(
+    s.ChannelType,
+    s.ChannelId,
+    s.ChannelName,
+    s.GuildId,
+    s.GuildName,
+    s.Message,
+    s.AuthorId,
+    s.AuthorUsername,
+    s.AuthorBot,
+    s.Embed,
+    s.CreateTime,
+  )
+    // .then((res) => {
+    //   console.log('db 저장을 했다.', res);
+    // })
+    .catch(error => console.log(error))
 }
 
 
