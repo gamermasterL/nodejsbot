@@ -31,7 +31,15 @@ client.on("guildMemberRemove", (member) => {
 
 client.on('message', (message) => {
   if (!message.guild) return;
-
+  if (msg.content.startsWith("!dice")) {
+    m = msg.content.split(' ');
+    if (m[1] === undefined && m[2] === undefined)
+        msg.channel.send("`!dice [정수] [정수]` 또는 `dice [정수]`와 같이 입력해주세요");
+    else if (m[2] === undefined)
+        msg.channel.send(mathf.randomInt(0, parseInt(m[1])));
+    else
+        msg.channel.send(mathf.randomInt(parseInt(m[1]), parseInt(m[2])));
+}
   if (message.content.startsWith('!ban')) {
     // Assuming we mention someone in the message, this will return the user
     // Read more about mentions over at https://discord.js.org/#/docs/main/master/class/MessageMentions
@@ -193,6 +201,7 @@ client.on('message', (message) => {
       {name: '!rank', desc: 'MEE6봇이 당신의 랭크를 띄웁니다 '},
       {name: '!초대코드', desc:'초대코드 발급받기'},
       {name: '!관리자', desc:'관리자를 호출할 수 있습니다(평일엔 못 갈 수도 있음),호출 사유가 불분명하면 경고 당하므로 주의하세요' },
+      {name: '!dice [정수] [정수] 또는 !dice [정수]', desc:'일정한 수를 랜덤으로 돌리는 명령어'}
     ];
     let commandStr = '';
     let embed = new Discord.RichEmbed()
