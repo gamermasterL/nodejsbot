@@ -35,9 +35,9 @@ client.on('message', (message) => {
     if (m[1] == undefined && m[2] == undefined){
         message.channel.send("dice [정수] [정수] 또는 dice [정수]와 같이 입력해주세요");
     }else if (m[2] == undefined){
-        message.channel.send(Math.randomInt(0, parseInt(m[1])));
+        message.channel.send(mathf.randomInt(0, parseInt(m[1])));
     }else{
-        message.channel.send(Math.randomInt(parseInt(m[1]), parseInt(m[2])));
+        message.channel.send(mathf.randomInt(parseInt(m[1]), parseInt(m[2])));
        }
   }
   if (message.content.startsWith('!ban')) {
