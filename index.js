@@ -32,13 +32,16 @@ client.on("guildMemberRemove", (member) => {
 client.on('message', (message) => {
   if (message.content.startsWith("!dice")) {
     m = message.content.split(' ');
-    message.channel.send(Math.random(parseInt(m[1] , 10), parseInt(m[2] , 10)));  
     if (m[1] == undefined && m[2] == undefined){
-      message.channel.send("dice [정수] [정수] 또는 dice [정수]와 같이 입력해주세요");
-  } else if(m[2] == undefined){
-      message.channel.send(Math.random(0, parseInt(m[1] , 10)));
+        message.channel.send("!dice [정수] [정수]와 같이 입력해주세요");
+    } else if (m[2] == undefined){
+      message.channel.send("!dice [정수] [정수]와 같이 입력해주세요");
+    }else if (m[1] <= m[2]){
+      message.channel.send("첫번째 수가 두번째 수보다 더 커야합니다");
+    }else{
+        message.channel.send(Math.floor(Math.random() * ( m[1]-m[2] )) + m[2]) 
+       }
   }
-}
   if (message.content.startsWith('!ban')) {
     // Assuming we mention someone in the message, this will return the user
     // Read more about mentions over at https://discord.js.org/#/docs/main/master/class/MessageMentions
