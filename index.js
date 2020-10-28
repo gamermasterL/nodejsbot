@@ -32,11 +32,11 @@ client.on("guildMemberRemove", (member) => {
 client.on('message', (message) => {
   if (message.content.startsWith("!dice")) {
     m = message.content.split(' ');
-    message.channel.send(mathf.randomInt(parseInt(m[1] , 10), parseInt(m[2] , 10)));  
+    message.channel.send(Math.random(parseInt(m[1] , 10), parseInt(m[2] , 10)));  
     if (m[1] == undefined && m[2] == undefined){
       message.channel.send("dice [정수] [정수] 또는 dice [정수]와 같이 입력해주세요");
   } else if(m[2] == undefined){
-      message.channel.send(mathf.randomInt(0, parseInt(m[1] , 10)));
+      message.channel.send(Math.random(0, parseInt(m[1] , 10)));
   }
 }
   if (message.content.startsWith('!ban')) {
