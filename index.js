@@ -30,17 +30,12 @@ client.on("guildMemberRemove", (member) => {
 });
 
 client.on('message', (message) => {
-  if (message.content.startsWith("!dice")) {
-    m = message.content.split(' ');
-    if (m[1] == undefined && m[2] == undefined){
-        message.channel.send("!dice [정수] [정수]와 같이 입력해주세요");
-    } else if (m[2] == undefined){
-      message.channel.send("!dice [정수] [정수]와 같이 입력해주세요");
-    }else if (m[1] <= m[2]){
-      message.channel.send("첫번째 수가 두번째 수보다 더 커야합니다");
-    }else{
-        message.channel.send(Math.floor(Math.random() * ( m[1]-m[2] )) + m[2]) 
-       }
+  if (message.content == '!dice') {
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+    }
   }
   if (message.content.startsWith('!ban')) {
     // Assuming we mention someone in the message, this will return the user
@@ -126,7 +121,7 @@ client.on('message', (message) => {
 
   
   if(message.author.bot) return;
-  if(message.content == '@관리자') {
+  if(message.content == '!관리자') {
     message.reply('@GamerK');
     let img = 'https://data.ac-illust.com/data/thumbnails/89/8931d6f5916ade8eb2fe2c1b4ba226b3_t.jpeg';
     let embed = new Discord.RichEmbed()
