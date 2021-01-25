@@ -23,7 +23,7 @@ client.on("guildMemberAdd", (member) => {
 
 
 client.on('message', (message) => {
-  if (message.content.startswith('!주사위')){
+  if (message.content == '!주사위'){
     randomNum = Math.floor(Math.random*10)+1;
     if (randomNum = 1){
       message.channel.send(randomNum);
