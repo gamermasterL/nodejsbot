@@ -21,13 +21,6 @@ client.on("guildMemberAdd", (member) => {
   member.addRole(guild.roles.find(role => role.name == "guest"));
 });
 
-client.on("guildMemberRemove", (member) => {
-  const guild = member.guild;
-  const deleteUser = member.user;
-  const byeChannel = guild.channels.find(channel => channel.name == byeChannelName);
-
-  byeChannel.send(`<@${deleteUser.id}> ${byeChannelComment}\n`);
-});
 
 client.on('message', (message) => {
   if (message.content == '!dice') {
@@ -139,7 +132,7 @@ client.on('message', (message) => {
     message.channel.send(embed)
   }
   if(message.content == 'ping') {
-    return message.reply('pong');
+    message.channel.send('pong');
       }
   if(message.content == '!1') {
     let embed = new Discord.RichEmbed()
