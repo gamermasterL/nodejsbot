@@ -23,24 +23,7 @@ client.on("guildMemberAdd", (member) => {
 
 
 client.on('message', (message) => {
-  if (message.content == '!주사위'){
-    randomNum = Math.floor(Math.random*10)+1;
-    if (randomNum = 1){
-      message.channel.send(randomNum);
-    } else if (randomNum = 2){
-      message.channel.send(randomNum);
-    } else if (randomNum = 3){
-      message.channel.send(randomNum);
-    } else if (randomNum = 4){
-      message.channel.send(randomNum);
-    } else if (randomNum = 5){
-      message.channel.send(randomNum);
-    } else if (randomNum = 6){
-      message.channel.send(randomNum);
-    }
-      
-        
-  }
+  
   if (message.content.startsWith('!ban')) {
     // Assuming we mention someone in the message, this will return the user
     // Read more about mentions over at https://discord.js.org/#/docs/main/master/class/MessageMentions
@@ -237,6 +220,24 @@ client.on('message', (message) => {
       } else {
         return message.reply('채널에서 실행해주세요.');
       }
+    }
+    if (message.content == '!주사위'){
+      randomNum = Math.floor(Math.random*10)+1;
+      if (randomNum = 1){
+        message.channel.send(randomNum);
+      } else if (randomNum = 2){
+        message.channel.send(randomNum);
+      } else if (randomNum = 3){
+        message.channel.send(randomNum);
+      } else if (randomNum = 4){
+        message.channel.send(randomNum);
+      } else if (randomNum = 5){
+        message.channel.send(randomNum);
+      } else if (randomNum = 6){
+        message.channel.send(randomNum);
+      }
+        
+          
     }
   if(message.content.startsWith('!청소')) {
     if(checkPermission(message)) return
