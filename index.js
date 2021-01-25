@@ -141,7 +141,7 @@ client.on('message', (message) => {
   if(message.content == 'ping') {
     return message.reply('pong');
       }
-  if(message.content == '!si') {
+  if(message.content == '!임베드1') {
     let embed = new Discord.RichEmbed()
     let img = 'https://cdn.discordapp.com/avatars/664784922875265024/04935bda2381b0166f5fbfe41671ca05.webp?size=128';
     var duration = moment.duration(client.uptime).format(" D [일], H [시간], m [분], s [초]");
