@@ -24,27 +24,21 @@ client.on("guildMemberAdd", (member) => {
 
 client.on('message', (message) => {
   if (message.content.startswith('!주사위')){
-
-        randomNum = random.randrange(1, 7);
-        print(randomNum);
-        if (randomNum == 1){
-            message.channel.send(randomNum);
-        }
-        if (randomNum == 2){
-          message.channel.send(randomNum);
-        }
-        if (randomNum == 3){
-          message.channel.send(randomNum);
-        }
-        if (randomNum == 4){
-          message.channel.send(randomNum);
-        }
-        if (randomNum == 5){
-          message.channel.send(randomNum);
-        }
-        if (randomNum == 6){
-          message.channel.send(randomNum);
-        }
+    randomNum = Math.floor(Math.random*10)+1;
+    if (randomNum = 1){
+      message.channel.send(randomNum);
+    } else if (randomNum = 2){
+      message.channel.send(randomNum);
+    } else if (randomNum = 3){
+      message.channel.send(randomNum);
+    } else if (randomNum = 4){
+      message.channel.send(randomNum);
+    } else if (randomNum = 5){
+      message.channel.send(randomNum);
+    } else if (randomNum = 6){
+      message.channel.send(randomNum);
+    }
+      
         
   }
   if (message.content.startsWith('!ban')) {
