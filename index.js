@@ -221,10 +221,19 @@ client.on('message', (message) => {
         return message.reply('채널에서 실행해주세요.');
       }
     }
-    if (message.content == '!주사위'){
-      randomNum = Math.floor(Math.random*10)+1;
-      message.channel.send(randomNum);        
-          
+    if(message.content == `주사위`) {
+      const number = [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+    ];
+    
+    const Response = Math.floor(Math.random() * number.length);
+    
+    message.channel.send(`${number[Response]}`)
     }
   if(message.content.startsWith('!청소')) {
     if(checkPermission(message)) return
