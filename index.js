@@ -223,25 +223,7 @@ client.on('message', (message) => {
     }
     if (message.content == '!주사위'){
       randomNum = Math.floor(Math.random*10)+1;
-      if (randomNum = 1){
-        message.channel.send("1");
-      }
-      if (randomNum = 2){
-        message.channel.send("2");
-      }
-      if (randomNum = 3){
-        message.channel.send("3");
-      }
-      if (randomNum = 4){
-        message.channel.send("4");
-      }
-      if (randomNum = 5){
-        message.channel.send("5");
-      }
-      if (randomNum = 6){
-        message.channel.send("6");
-      }
-        
+      message.channel.send(randomNum);        
           
     }
   if(message.content.startsWith('!청소')) {
