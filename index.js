@@ -28,22 +28,22 @@ client.on('message', (message) => {
         randomNum = random.randrange(1, 7);
         print(randomNum);
         if (randomNum == 1){
-            await client.send_message(message.channel, embed=discord.Embed(description=':game_die: '+ ':one:'))
+            message.channel.send(randomNum);
         }
         if (randomNum == 2){
-          await client.send_message(message.channel, embed=discord.Embed(description=':game_die: '+ ':two:'))
+          message.channel.send(randomNum);
         }
         if (randomNum == 3){
-          await client.send_message(message.channel, embed=discord.Embed(description=':game_die: '+ ':three:'))
+          message.channel.send(randomNum);
         }
         if (randomNum == 4){
-          await client.send_message(message.channel, embed=discord.Embed(description=':game_die: '+ ':four:'))
+          message.channel.send(randomNum);
         }
         if (randomNum == 5){
-          await client.send_message(message.channel, embed=discord.Embed(description=':game_die: '+ ':five:'))
+          message.channel.send(randomNum);
         }
         if (randomNum == 6){
-          await client.send_message(message.channel, embed=discord.Embed(description=':game_die: '+ ':six:'))
+          message.channel.send(randomNum);
         }
         
   }
