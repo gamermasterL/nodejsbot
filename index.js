@@ -23,19 +23,9 @@ client.on("guildMemberAdd", (member) => {
 
 
 client.on('message', (message) => {
-  if(message.content == `주사위`) {
-    const number = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-  ];
-  
-  const Response = Math.floor(Math.random() * number.length);
-  
-  message.channel.send(`${number[Response]}`)
+  if (message.content.startswith('!주사위')){
+    const Number = Math.floor(Math.random()*6)+1;
+    message.channel.send('Number');
   }
   if (message.content.startsWith('!ban')) {
     // Assuming we mention someone in the message, this will return the user
