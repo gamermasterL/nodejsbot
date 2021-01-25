@@ -225,16 +225,22 @@ client.on('message', (message) => {
       randomNum = Math.floor(Math.random*10)+1;
       if (randomNum = 1){
         message.channel.send(randomNum);
+        return
       } else if (randomNum = 2){
         message.channel.send(randomNum);
+        return
       } else if (randomNum = 3){
         message.channel.send(randomNum);
+        return
       } else if (randomNum = 4){
         message.channel.send(randomNum);
+        return
       } else if (randomNum = 5){
         message.channel.send(randomNum);
+        return
       } else if (randomNum = 6){
         message.channel.send(randomNum);
+        return
       }
         
           
