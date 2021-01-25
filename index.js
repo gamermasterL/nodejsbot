@@ -221,7 +221,7 @@ client.on('message', (message) => {
         return message.reply('채널에서 실행해주세요.');
       }
     }
-    if(message.content == `주사위`) {
+    if(message.content == '!주사위') {
       const number = [
       "1",
       "2",
