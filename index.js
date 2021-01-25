@@ -185,7 +185,7 @@ client.on('message', (message) => {
       {name: '!rank', desc: 'MEE6봇이 당신의 랭크를 띄웁니다 '},
       {name: '!초대코드', desc:'초대코드 발급받기'},
       {name: '!관리자', desc:'관리자를 호출할 수 있습니다(평일엔 못 갈 수도 있음),호출 사유가 불분명하면 경고 당하므로 주의하세요' },
-      {name: '!주사위', desc:'1~6까지의 수를 랜덤으로 돌립니다'}
+      {name: '!주사위', desc:'1~6까지의 수를 랜덤으로 돌립니다.'}
     ];
     let commandStr = '';
     let embed = new Discord.RichEmbed()
