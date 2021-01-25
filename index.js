@@ -23,10 +23,7 @@ client.on("guildMemberAdd", (member) => {
 
 
 client.on('message', (message) => {
-  if (message.content.startswith('!주사위')){
-    const Number = Math.floor(Math.random()*6)+1;
-    message.channel.send('Number');
-  }
+  
   if (message.content.startsWith('!ban')) {
     // Assuming we mention someone in the message, this will return the user
     // Read more about mentions over at https://discord.js.org/#/docs/main/master/class/MessageMentions
