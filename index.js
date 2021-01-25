@@ -23,19 +23,29 @@ client.on("guildMemberAdd", (member) => {
 
 
 client.on('message', (message) => {
-  if(message.content == `주사위`) {
-    const number = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-  ];
-  
-  const Response = Math.floor(Math.random() * number.length);
-  
-  message.channel.send(`${number[Response]}`);
+  if (message.content.startswith('!주사위')){
+
+        randomNum = random.randrange(1, 7);
+        print(randomNum);
+        if (randomNum == 1){
+            await client.send_message(message.channel, embed=discord.Embed(description=':game_die: '+ ':one:'))
+        }
+        if (randomNum == 2){
+          await client.send_message(message.channel, embed=discord.Embed(description=':game_die: '+ ':two:'))
+        }
+        if (randomNum == 3){
+          await client.send_message(message.channel, embed=discord.Embed(description=':game_die: '+ ':three:'))
+        }
+        if (randomNum == 4){
+          await client.send_message(message.channel, embed=discord.Embed(description=':game_die: '+ ':four:'))
+        }
+        if (randomNum == 5){
+          await client.send_message(message.channel, embed=discord.Embed(description=':game_die: '+ ':five:'))
+        }
+        if (randomNum == 6){
+          await client.send_message(message.channel, embed=discord.Embed(description=':game_die: '+ ':six:'))
+        }
+        
   }
   if (message.content.startsWith('!ban')) {
     // Assuming we mention someone in the message, this will return the user
