@@ -23,12 +23,19 @@ client.on("guildMemberAdd", (member) => {
 
 
 client.on('message', (message) => {
-  if (message.content == '!dice') {
-    function getRandomInt(min, max) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      message.channel.send(Math.floor(Math.random() * (max - min)) + min); //최댓값은 제외, 최솟값은 포함
-    }
+  if(message.content == `주사위`) {
+    const number = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+  ];
+  
+  const Response = Math.floor(Math.random() * number.length);
+  
+  message.channel.send(`${number[Response]}`)
   }
   if (message.content.startsWith('!ban')) {
     // Assuming we mention someone in the message, this will return the user
